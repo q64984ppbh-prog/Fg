@@ -22,7 +22,7 @@ async def call_send_ref_bonus_in_money(call: CallbackQuery):
 
     flag = await db.admin.get_value('Flag_Bonus_Ref')
     if flag == 0:
-        await call.answer(caption="❌ Конкурс не активен!", show_alert=True)
+        await call.answer(text="❌ Конкурс не активен!", show_alert=True)
         return
 
     total_refs = await db.referals.count_referals(user_id)
@@ -48,10 +48,10 @@ async def call_send_ref_bonus_in_money(call: CallbackQuery):
     ref_balance = await db.referals.get_referal_balance(user_id)
     turnover = await db.referals.get_referal_turnover_bonus(user_id)
 
-    await call.bot.edit_message_caption(
+    await call.bot.edit_message_text(
         chat_id=user_id,
         message_id=message_id,
-        caption = clean(f"""
+        text= clean(f"""
             <b>🎁 Реферальный бонус</b>
 
             <blockquote><b>📗 В чем суть ❓</b>

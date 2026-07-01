@@ -1,6 +1,6 @@
 # main
 from aiogram import F, Router
-from aiogram.types import CallbackQuery, Message, FSInputFile
+from aiogram.types import FSInputFile, CallbackQuery, Message
 from aiogram.fsm.context import FSMContext
 from aiogram.fsm.state import State, StatesGroup
 from aiogram.filters import StateFilter
@@ -31,7 +31,7 @@ async def call_start_dep_xrocket(call: CallbackQuery, state: FSMContext):
     await call.answer()
     await call.bot.edit_message_text(chat_id=user_id,
                                         message_id=message_id,
-                                        caption=clean(f"""
+                                        text=clean(f"""
                                         💡 Выбрана система: <b>🦋 xRocket</b>
 
                                         <blockquote><b>🌏 xRocket</b> — предназначен для хранения, отправки и покупки криптовалют прямо внутри Telegram.</blockquote>
@@ -54,7 +54,7 @@ async def message_deposit_xrocket(message: Message, state: FSMContext):
     except:
         photo = FSInputFile('photo/profile.jpg')
         await bot.send_message(chat_id=user_id,
-                             caption=clean(f"""
+                             text=clean(f"""
                             <code>[ERR]</code> <b>❌ Бот заметил ошибку!</b>
                                            
                             💸 Отправьте <b>верную сумму</b> для пополнения:"""),
@@ -76,7 +76,7 @@ async def message_deposit_xrocket(message: Message, state: FSMContext):
             await state.clear()
             photo = FSInputFile('photo/profile.jpg')
             soo = await bot.send_message(chat_id=user_id,
-                                 caption=clean(f"""
+                                 text=clean(f"""
                                 ✅ Счет на оплату <b>создан</b>
                                 
                                 <blockquote>📖 <b>Информация</b> счета
@@ -102,7 +102,7 @@ async def message_deposit_xrocket(message: Message, state: FSMContext):
 
                 await bot.delete_message(chat_id=user_id, message_id=soo.message_id)
                 await bot.send_message(chat_id=user_id,
-                                     caption=clean(f"""
+                                     text=clean(f"""
                                     ✅ Счет <b>оплачен</b>!
                                     
                                     <blockquote>📖 <b>Информация</b> счета
@@ -120,7 +120,7 @@ async def message_deposit_xrocket(message: Message, state: FSMContext):
         else:
             photo = FSInputFile('photo/profile.jpg')
             await bot.send_message(chat_id=user_id,
-                             caption=clean(f"""
+                             text=clean(f"""
                             <code>[ERR]</code> <b>❌ Бот заметил ошибку!</b>
                                            
                             👨🏻‍💻 Произошла <b>Тех.Ошибка</b>, обратитесь в поддержку"""),
@@ -128,7 +128,7 @@ async def message_deposit_xrocket(message: Message, state: FSMContext):
     else:
         photo = FSInputFile('photo/profile.jpg')
         await bot.send_message(chat_id=user_id,
-                             caption=clean(f"""
+                             text=clean(f"""
                             <code>[ERR]</code> <b>❌ Бот заметил ошибку!</b>
                                            
                             💸 Диапозон от <b>{min_dep:.2f}$</b> до <b>{max_dep:.0f}$</b>"""),

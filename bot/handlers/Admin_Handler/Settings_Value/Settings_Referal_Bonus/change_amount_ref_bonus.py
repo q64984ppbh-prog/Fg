@@ -1,6 +1,6 @@
 # main
 from aiogram import F, Router
-from aiogram.types import CallbackQuery, Message, FSInputFile
+from aiogram.types import CallbackQuery, Message
 from aiogram.filters import StateFilter
 from aiogram.fsm.context import FSMContext
 from aiogram.fsm.state import State, StatesGroup
@@ -29,7 +29,7 @@ async def call_change_ref_bonus_amount(call: CallbackQuery, state: FSMContext):
     await call.answer()
     await call.bot.edit_message_text(chat_id=user_id,
                                         message_id=message_id,
-                                        caption=clean(f"""
+                                        text=clean(f"""
                                         <b>💸 Реферальный бонус</b>
                                                       
                                         <blockquote>📊 Здесь вы можете настроить реферальный бонус в нашем боте!</blockquote>
@@ -48,7 +48,7 @@ async def message_settings_ref_bonus(message: Message, state: FSMContext):
         amount = float(message.text)
     except:
         await message.bot.send_message(chat_id=user_id,
-                                    caption=clean(f"""
+                                    text=clean(f"""
                                     <b>🧐 Произошла ошибка!</b>
 
                                     <blockquote>❌ Вы ввели не верное число для <b>реферального бонуса</b></blockquote>
@@ -59,7 +59,7 @@ async def message_settings_ref_bonus(message: Message, state: FSMContext):
     
     await db.admin.update_value('Amount_Bonus_Ref', amount)
     await message.bot.send_message(chat_id=user_id,
-                                 caption=clean(f"""
+                                 text=clean(f"""
                                 <b>✅ Значение изменено!</b>
                                 
                                 <blockquote>📊 Вы успешно изменили <b>реферальный бонус за 10 чел.</b></blockquote>

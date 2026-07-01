@@ -8,7 +8,7 @@ def start_mines_key(count_mines):
                 InlineKeyboardButton(text="🕹 Начать игру", callback_data='start_game_mines')
             ],
             [
-                InlineKeyboardButton(text="⬅️ Назад", callback_data='create_game'),
+                InlineKeyboardButton(text="Назад", icon_custom_emoji_id="5258236805890710909", callback_data='create_game'),
                 InlineKeyboardButton(text=f"💣 {count_mines}", callback_data='change_count_mines')
             ]
         ]
@@ -45,7 +45,7 @@ def change_count_mines(count):
 
     keyboard.append([
         InlineKeyboardButton(
-            text="⬅️ Вернуться",
+            text="Вернуться", icon_custom_emoji_id="5258236805890710909",
             callback_data="game_mines"
         )
     ])
@@ -56,7 +56,7 @@ def back_in_mines_game_key():
     main = InlineKeyboardMarkup(
         inline_keyboard=[
             [
-                InlineKeyboardButton(text="⬅️ Вернуться", callback_data='game_mines')
+                InlineKeyboardButton(text="Вернуться", icon_custom_emoji_id="5258236805890710909", callback_data='game_mines')
             ]
         ]
     )
@@ -139,7 +139,7 @@ def generate_mines_field(
         ])
         keyboard.append([
             InlineKeyboardButton(
-                text="⬅️ Вернуться",
+                text="Вернуться", icon_custom_emoji_id="5258236805890710909",
                 callback_data='game_mines'
             )
         ])

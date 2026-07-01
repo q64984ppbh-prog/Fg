@@ -22,9 +22,9 @@ async def call_edit_value_project(call: CallbackQuery):
         return
     
     await call.answer()
-    await call.bot.edit_message_text(chat_id=user_id,
-                                        message_id=message_id,
-                                        caption=clean(f"""
+    await call.message.delete(); await call.bot.send_message(chat_id=user_id,
+                                        
+                                        text=clean(f"""
                                         <b>⚙️ Раздел настройки значений</b>
 
                                         <blockquote>ℹ️ Здесь вы можете поменять значения в боте, начиная от депозита, до суммы бонусов</blockquote>

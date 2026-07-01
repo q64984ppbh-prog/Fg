@@ -28,7 +28,7 @@ async def deposit_message(message: Message):
     except ValueError:
         value_error_message = await bot.send_message(
             chat_id=chat_id,
-            caption="<b>❌ Укажите сумму вывода.\n\nПример: Вывод 1$</b>",
+            text="<b>❌ Укажите сумму вывода.\n\nПример: Вывод 1$</b>",
         )
         await asyncio.sleep(4)
         await bot.delete_message(chat_id=chat_id, message_id=value_error_message.message_id)
@@ -36,13 +36,13 @@ async def deposit_message(message: Message):
     
     if await db.users.get_balance(user_id) >= amount:
         await bot.send_message(chat_id=chat_id,
-                               caption=f"<b>Сумма вывода — {amount}$\n\n👇 Выберите метод вывода</b>",
+                               text=f"<b>Сумма вывода — {amount}$\n\n👇 Выберите метод вывода</b>",
                                reply_markup=start_withdraw_chat_keyboard(user_id, amount),
                                reply_to_message_id=message_id)
     else:
         dell_message_error_balance = await bot.send_message(
             chat_id=chat_id,
-            caption=f"<b>❌ Недостаточно средств для вывода <code>{amount}$</code>.\n\nВаш баланс: <code>{await db.users.get_balance(user_id)}$</code></b>",
+            text=f"<b>❌ Недостаточно средств для вывода <code>{amount}$</code>.\n\nВаш баланс: <code>{await db.users.get_balance(user_id)}$</code></b>",
         )
         await asyncio.sleep(4)
         await bot.delete_message(chat_id=chat_id, message_id=dell_message_error_balance.message_id)
@@ -69,7 +69,7 @@ async def call_withdraw_chat_cryptobot(call: CallbackQuery):
     await call.answer()
     await call.bot.edit_message_text(chat_id=chat_id,
                                      message_id=message_id,
-                                     caption=f"<b>🌏 Crypto Bot — {amount} — USDT\n\n👇 Подтвердите вывод</b>",
+                                     text=f"<b>🌏 Crypto Bot — {amount} — USDT\n\n👇 Подтвердите вывод</b>",
                                      reply_markup=accept_withdraw_chat_keyboard(user_id, amount))
     
 @router.callback_query(F.data.startswith("confirm_withdraw_cryptobot_"))
@@ -111,7 +111,7 @@ async def confirm_withdraw_chat_cryptobot(call: CallbackQuery):
         await call.answer()
         await call.bot.edit_message_text(chat_id=chat_id,
                                          message_id=message_id,
-                                         caption=f"<b>🧾 Чек на {amount}$ для @{username}</b>",
+                                         text=f"<b>🧾 Чек на {amount}$ для @{username}</b>",
                                          reply_markup=activated_check_user_keyboard(url, amount))
     except:
         pass
@@ -159,7 +159,7 @@ async def confirm_withdraw_chat_cryptobot(call: CallbackQuery):
         await call.answer()
         await call.bot.edit_message_text(chat_id=chat_id,
                                          message_id=message_id,
-                                         caption=f"<b>🧾 Чек на {amount}$ для @{username}</b>",
+                                         text=f"<b>🧾 Чек на {amount}$ для @{username}</b>",
                                          reply_markup=activated_check_user_keyboard(url, amount))
     except:
         pass
@@ -201,5 +201,5 @@ async def change_method_chat(call: CallbackQuery):
     await call.answer()
     await call.bot.edit_message_text(chat_id=chat_id,
                                      message_id=message_id,
-                                     caption=f"<b>Сумма вывода — {amount}$\n\n👇 Выберите метод вывода</b>",
+                                     text=f"<b>Сумма вывода — {amount}$\n\n👇 Выберите метод вывода</b>",
                                     reply_markup=start_withdraw_chat_keyboard(user_id, amount))

@@ -1,6 +1,6 @@
 # main
 from aiogram import F, Router
-from aiogram.types import CallbackQuery, InputMediaPhoto, FSInputFile
+from aiogram.types import FSInputFile, CallbackQuery
 
 # other
 from data.config import db
@@ -18,7 +18,7 @@ async def call_start_information(call: CallbackQuery):
     await call.answer()    
     new_media = InputMediaPhoto(
         media=FSInputFile("photo/rules.jpg"),
-        caption=f"<b>🎁 Информация о проекте DuckWin</b>"
+        text=f"<b>🎁 Информация о проекте DuckWin</b>"
     )
 
     await call.bot.edit_message_media(

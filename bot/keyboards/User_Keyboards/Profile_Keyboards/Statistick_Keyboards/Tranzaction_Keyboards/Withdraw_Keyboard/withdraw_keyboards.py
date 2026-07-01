@@ -9,7 +9,7 @@ async def generate_withdraw_keyboard(user_id: int, page: int = 1) -> InlineKeybo
     if not deposits:
         return InlineKeyboardMarkup(inline_keyboard=[
             [InlineKeyboardButton(text="❌ Нет выводов", callback_data="none")],
-            [InlineKeyboardButton(text="⬅️ Назад", callback_data="tranzaction_profile")]
+            [InlineKeyboardButton(text="Назад", icon_custom_emoji_id="5258236805890710909", callback_data="tranzaction_profile")]
         ])
     
     deposits = list(reversed(deposits))
@@ -54,7 +54,7 @@ async def generate_withdraw_keyboard(user_id: int, page: int = 1) -> InlineKeybo
     if pagination_buttons:
         buttons.append(pagination_buttons)
 
-    buttons.append([InlineKeyboardButton(text="⬅️ Вернуться", callback_data="tranzaction_profile")])
+    buttons.append([InlineKeyboardButton(text="Вернуться", icon_custom_emoji_id="5258236805890710909", callback_data="tranzaction_profile")])
 
     return InlineKeyboardMarkup(inline_keyboard=buttons)
 
@@ -62,7 +62,7 @@ def back_withdraw_keyboard():
     main = InlineKeyboardMarkup(
         inline_keyboard=[
             [
-                InlineKeyboardButton(text="⬅️ Вернуться", callback_data='tranzaction_withdraw')
+                InlineKeyboardButton(text="Вернуться", icon_custom_emoji_id="5258236805890710909", callback_data='tranzaction_withdraw')
             ]
         ]
     )

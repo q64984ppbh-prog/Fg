@@ -33,9 +33,9 @@ async def call_channel_redact_project(call: CallbackQuery, state: FSMContext):
     else:
         channels_text = "<code>❌ Нет активных каналов.</code>"
 
-    await call.bot.edit_message_text(chat_id=user_id,
-                                        message_id=message_id,
-                                        caption=clean(f"""
+    await call.message.delete(); await call.bot.send_message(chat_id=user_id,
+                                        
+                                        text=clean(f"""
                                         <b>📕 Каналы подписки</b>
                                                       
                                         <blockquote><b>📊 Активные каналы</b>

@@ -1,6 +1,6 @@
 # main
 from aiogram import F, Router
-from aiogram.types import CallbackQuery, Message, FSInputFile
+from aiogram.types import FSInputFile, CallbackQuery, Message
 from aiogram.fsm.context import FSMContext
 from aiogram.fsm.state import StatesGroup, State
 from aiogram.filters import StateFilter
@@ -26,7 +26,7 @@ async def call_channel_admin_dell(call: CallbackQuery, state: FSMContext):
     await call.answer()
     await call.bot.edit_message_text(chat_id=user_id,
                                         message_id=message_id,
-                                        caption=f"<b>✍🏻 Введите название канала для удаления:</b>",
+                                        text=f"<b>✍🏻 Введите название канала для удаления:</b>",
                                         reply_markup=back_in_redact_channel_keyboard())
     await state.set_state(DellChannelState.name_channel)
 
@@ -40,11 +40,11 @@ async def message_dell_channel(message: Message, state: FSMContext):
     photo = FSInputFile('photo/admin.jpg')
     if not await db.channels.channel_exists(name_channel):
         await message.bot.send_message(chat_id=user_id,
-                                    caption=f"<b>❌ Данный канал не найден в нашем списке</b>",
+                                    text=f"<b>❌ Данный канал не найден в нашем списке</b>",
                                     reply_markup=back_in_redact_channel_keyboard())
     else:
         await db.channels.remove_channel_from_bd(name_channel)
         await message.bot.send_message(chat_id=user_id,
-                                     caption=f"<b>✅ Данный канал удален!</b>",
+                                     text=f"<b>✅ Данный канал удален!</b>",
                                      reply_markup=back_in_redact_channel_keyboard())
         await state.clear()    

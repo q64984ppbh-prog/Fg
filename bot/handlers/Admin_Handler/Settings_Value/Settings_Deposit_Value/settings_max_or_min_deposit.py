@@ -1,6 +1,6 @@
 # main
 from aiogram import F, Router
-from aiogram.types import CallbackQuery, Message, FSInputFile
+from aiogram.types import CallbackQuery, Message
 from aiogram.filters import StateFilter
 from aiogram.fsm.context import FSMContext
 from aiogram.fsm.state import State, StatesGroup
@@ -32,7 +32,7 @@ async def call_settings_deposit_admin(call: CallbackQuery, state: FSMContext):
     await call.answer()
     await call.bot.edit_message_text(chat_id=user_id,
                                         message_id=message_id,
-                                        caption=clean(f"""
+                                        text=clean(f"""
                                         <b>{"📈 Минимальный депозит" if deposit_cho == "minimal" else "📉 Максимальный депозит"}</b>
 
                                         <blockquote>📊 Здесь вы можете настроить депозит в нашем боте!</blockquote>
@@ -52,7 +52,7 @@ async def message_deposit_change_amount(message: Message, state: FSMContext):
         amount = float(message.text)
     except:
         await message.bot.send_message(chat_id=user_id,
-                                     caption=clean(f"""
+                                     text=clean(f"""
                                     <b>🧐 Произошла ошибка!</b>
                                                    
                                     <blockquote>❌ Вы ввели не верное число для депозита</blockquote>
@@ -70,7 +70,7 @@ async def message_deposit_change_amount(message: Message, state: FSMContext):
         await db.admin.update_value("Max_Dep", amount)
 
     await message.bot.send_message(chat_id=user_id,
-                                 caption=clean(f"""
+                                 text=clean(f"""
                                 <b>✅ Значение изменено!</b>
                                 
                                 <blockquote>📊 Вы успешно изменили <b>{"минимальный депозит" if deposit == 'minimal' else "максимальный депозит"}</b> на <b>{amount}$</b></blockquote>

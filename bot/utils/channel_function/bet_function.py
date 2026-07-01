@@ -64,11 +64,11 @@ async def process_bet(bet, bot):
         actual_value = actual_value + bonus
         bonus_text = "\n🎁 Бонус 2.6% за приписку!"
     
-    caption = f"❤️‍🔥 {full_name} поставил на {stavka}\n\n💳 Ставка: {actual_value:.2f}💵\n💎 Лига: 🚀 Rookie\n🧾 Оплата через {payment_text}{bonus_text}"
+    text= f"❤️‍🔥 {full_name} поставил на {stavka}\n\n💳 Ставка: {actual_value:.2f}💵\n💎 Лига: 🚀 Rookie\n🧾 Оплата через {payment_text}{bonus_text}"
 
     sent_msg = await bot.send_message(
         chat_id=channel_game_id,
-        text=caption,
+        text=text,
         reply_markup=keyboard_in_game_message()
     )
 

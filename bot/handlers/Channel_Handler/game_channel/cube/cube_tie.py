@@ -45,7 +45,7 @@ async def payout_tie_cube(value, soo, user_id, bot):
         messages = await cfg.pyro_client.send_animation(
                 chat_id=channel_game_id,
                 animation='animation/win.mp4',
-                caption=premium_text,
+                text=premium_text,
                 reply_to_message_id=soo
         )
         try:
@@ -61,7 +61,7 @@ async def payout_tie_cube(value, soo, user_id, bot):
         await bot.send_animation(
             chat_id=channel_game_id,
             animation=animation,
-            caption=no_premium_text,
+            text=no_premium_text,
             reply_to_message_id=soo,
             reply_markup=keyboard_in_game_message()
         )

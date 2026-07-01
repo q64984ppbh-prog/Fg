@@ -8,7 +8,7 @@ def start_deposit_keyboard():
                 InlineKeyboardButton(text="🦋 xRocket (1%)", callback_data='start_dep_xrocket')
             ],
             [
-                InlineKeyboardButton(text="⬅️ Вернуться", callback_data='start_profile')
+                InlineKeyboardButton(text="Вернуться", icon_custom_emoji_id="5258236805890710909", callback_data='start_profile')
             ]
         ]
     )
@@ -18,7 +18,7 @@ def back_in_deposit_keyboard():
     main = InlineKeyboardMarkup(
         inline_keyboard=[
             [
-                InlineKeyboardButton(text="⬅️ Вернуться", callback_data='add_balance')
+                InlineKeyboardButton(text="Вернуться", icon_custom_emoji_id="5258236805890710909", callback_data='add_balance')
             ]
         ]
     )

@@ -1,6 +1,6 @@
 # main
 from aiogram import F, Router
-from aiogram.types import CallbackQuery, Message, FSInputFile
+from aiogram.types import FSInputFile, CallbackQuery, Message
 from aiogram.fsm.context import FSMContext
 from aiogram.filters import StateFilter
 from aiogram.fsm.state import State, StatesGroup
@@ -29,7 +29,7 @@ async def call_channel_amin_add(call: CallbackQuery, state: FSMContext):
     await call.answer()
     await call.bot.edit_message_text(chat_id=user_id,
                                         message_id=message_id,
-                                        caption=f"<b>✍🏻 Введите название канала:</b>",
+                                        text=f"<b>✍🏻 Введите название канала:</b>",
                                         reply_markup=back_in_redact_channel_keyboard())
     await state.set_state(AddChannelState.name_channel)
 
@@ -43,7 +43,7 @@ async def message_add_channel_name(message: Message, state: FSMContext):
     await state.update_data(name_channel=name_channel)
     
     await message.bot.send_message(chat_id=user_id,
-                                 caption=f"<b>🆔 Введите ID канала:</b>",
+                                 text=f"<b>🆔 Введите ID канала:</b>",
                                  reply_markup=back_in_redact_channel_keyboard())
     await state.set_state(AddChannelState.chatid_channel)
 
@@ -57,13 +57,13 @@ async def message_add_channel_id(message: Message, state: FSMContext):
         chatid_channel = int(message.text)
     except:
         await message.bot.send_message(chat_id=user_id,
-                                     caption=f"<b>❌ Введите верный ID канала!</b>",
+                                     text=f"<b>❌ Введите верный ID канала!</b>",
                                      reply_markup=back_in_redact_channel_keyboard())
         return
     
     await state.update_data(chatid_channel=chatid_channel)
     await message.bot.send_message(chat_id=user_id,
-                                 caption=f"<b>💫 Введите URL ссылку канала!</b>",
+                                 text=f"<b>💫 Введите URL ссылку канала!</b>",
                                  reply_markup=back_in_redact_channel_keyboard())
 
     await state.set_state(AddChannelState.url_channel)
@@ -81,7 +81,7 @@ async def message_add_channel_url(message: Message, state: FSMContext):
 
     await db.channels.add_channel(url_channel, chatid_channel, name_channel)
     await message.bot.send_message(chat_id=user_id,
-                                 caption=clean(f"""
+                                 text=clean(f"""
                                 <b>✅ Новый канал добавлен</b>
                                 
                                 <blockquote><b>✍️ Название:</b> <code>{name_channel}</code>

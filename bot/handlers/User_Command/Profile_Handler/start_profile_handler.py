@@ -1,5 +1,5 @@
 from aiogram import F, Router
-from aiogram.types import CallbackQuery, Message, InputMediaPhoto, FSInputFile
+from aiogram.types import CallbackQuery, Message
 from data.config import db
 from keyboards.User_Keyboards.Profile_Keyboards.profile_keyboard import start_profile_keyboard, start_profile_message_keyboard
 

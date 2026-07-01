@@ -7,7 +7,7 @@ def start_withdraw_keyboard():
                 InlineKeyboardButton(text="🌏 Crypto Bot", callback_data='start_withdraw_cryptobot')
             ],
             [
-                InlineKeyboardButton(text="⬅️ Вернуться", callback_data='start_profile')
+                InlineKeyboardButton(text="Вернуться", icon_custom_emoji_id="5258236805890710909", callback_data='start_profile')
             ]
         ]
     )
@@ -27,7 +27,7 @@ def activated_error_keyboard():
     main = InlineKeyboardMarkup(
         inline_keyboard=[
             [
-                InlineKeyboardButton(text="⬅️ Вернуться", callback_data='back_start')
+                InlineKeyboardButton(text="Вернуться", icon_custom_emoji_id="5258236805890710909", callback_data='back_start')
             ]
         ]
     )
@@ -37,7 +37,7 @@ def back_in_withdraw_keyboard():
     main = InlineKeyboardMarkup(
         inline_keyboard=[
             [
-                InlineKeyboardButton(text="⬅️ Вернуться", callback_data='withdraw_balance')
+                InlineKeyboardButton(text="Вернуться", icon_custom_emoji_id="5258236805890710909", callback_data='withdraw_balance')
             ]
         ]
     )

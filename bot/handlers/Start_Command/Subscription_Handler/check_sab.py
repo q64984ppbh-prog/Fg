@@ -1,6 +1,6 @@
 # main
 from aiogram import F, Router
-from aiogram.types import CallbackQuery, Message, FSInputFile
+from aiogram.types import CallbackQuery, Message
 
 # other
 from data.config import db, name_casino, url_project
@@ -28,10 +28,10 @@ async def call_check_subscription_channels(call: CallbackQuery):
     if not is_subscribed:
         await call.answer("❌ Проверка не пройдена", show_alert=True)
         try:
-            await bot.edit_message_caption(
+            await bot.edit_message_text(
                 chat_id=user_id,
                 message_id=call.message.message_id,
-                caption='<b>👉🏻 Подпишитесь на все каналы!</b>',
+                text='<b>👉🏻 Подпишитесь на все каналы!</b>',
                 reply_markup=markup_channels(unsubscribed_channels, ref_args))
         except:
             pass
@@ -44,7 +44,7 @@ async def call_check_subscription_channels(call: CallbackQuery):
             
         await bot.edit_message_text(chat_id=user_id,
                         message_id=message_id,
-                        caption=clean(f"""
+                        text=clean(f"""
                         👋🏻 Добро пожаловать в <b><a href='{url_project}'>{name_casino}</a></b>
 
                         {await check_admin(user_id)}"""),

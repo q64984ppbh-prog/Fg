@@ -10,6 +10,7 @@ import data.config as cfg
 # middleware
 from Middleware.IgoneMessage import IgnoreMessageNotModifiedMiddleware
 from Middleware.AntispamMiddleware import AntiFloodMiddleware
+from Middleware.NavGuard import NavGuard
 
 # Tire
 from tire import start_scheduler
@@ -33,11 +34,15 @@ async def main():
     
     dp.message.middleware(IgnoreMessageNotModifiedMiddleware())
     dp.callback_query.middleware(IgnoreMessageNotModifiedMiddleware())
+    dp.message.middleware(NavGuard())
     dp.message.middleware(AntiFloodMiddleware())
 
     asyncio.create_task(process_bets_in_strict_sequence(db.core, bot))
 
+    dp.include_router(handlers.nav_handler.router)
     dp.include_routers(
+        
+        
         handlers.Start_Handler.router,
         handlers.check_sab.router,
         handlers.start_profile_handler.router,
@@ -81,7 +86,7 @@ async def main():
         handlers.dell_channel.router,
         handlers.mailing_admin.router,
         handlers.start_statistick_admin.router,
-        handlers.create_game.router,
+        
         handlers.start_mines_game.router,
         handlers.change_count_mines.router,
         handlers.mines_game.router,

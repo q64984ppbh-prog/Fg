@@ -104,3 +104,8 @@ class AdminDB:
                 "SELECT COALESCE(SUM(lose_game), 0) FROM public.users_date"
             )
             return wins, loses
+
+    async def get_statistick(self, name: str):
+        async with self.db.pool.acquire() as conn:
+            result = await conn.fetchval("SELECT value FROM admin.statistics WHERE name_value = $1", name)
+            return float(result) if result else 0

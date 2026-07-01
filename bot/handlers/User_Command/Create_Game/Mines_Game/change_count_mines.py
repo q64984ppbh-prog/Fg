@@ -20,7 +20,7 @@ async def call_change_count_mines(call: CallbackQuery):
     await call.answer()
     await call.bot.edit_message_text(chat_id=user_id,
                                         message_id=message_id,
-                                        caption=clean(f"""
+                                        text=clean(f"""
                                         <b>🎮 Выберите количество мин</b>
                                         
                                         <b>💣 Выбрано: {count} шт.</b>"""),
@@ -50,7 +50,7 @@ async def call_mines_cho(call: CallbackQuery):
     await call.answer(f"💣 Вы установили {mines_count} мин.", show_alert=True)
     await call.bot.edit_message_text(chat_id=user_id,
                                         message_id=message_id,
-                                        caption=clean(f"""
+                                        text=clean(f"""
                                         <b>🎮 Выберите количество мин</b>
                                         
                                         <b>💣 Выбрано: {mines_user} шт.</b>"""),

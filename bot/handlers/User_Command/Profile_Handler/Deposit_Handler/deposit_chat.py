@@ -32,7 +32,7 @@ async def deposit_message(message: Message):
     except ValueError:
         error_soo_value_error = await bot.send_message(
             chat_id=chat_id,
-            caption="<blockquote>❌ Неверный формат суммы. Пример: <code>деп 10</code> или <code>deposit 0.5$</code></blockquote>",
+            text="<blockquote>❌ Неверный формат суммы. Пример: <code>деп 10</code> или <code>deposit 0.5$</code></blockquote>",
         )
         await asyncio.sleep(4)
         await bot.delete_message(chat_id=chat_id, message_id=error_soo_value_error .message_id)
@@ -40,7 +40,7 @@ async def deposit_message(message: Message):
 
     soo = await bot.send_message(
         chat_id=chat_id,
-        caption="<b>⌛️ Создание счёта для пополнения...</b>",
+        text="<b>⌛️ Создание счёта для пополнения...</b>",
     )
 
     amount_invoice = amount - (amount * 0.03)
@@ -53,7 +53,7 @@ async def deposit_message(message: Message):
             error_message = await bot.edit_message_text(
                 chat_id=chat_id,
                 message_id=soo.message_id,
-                caption="<b>❌ Ошибка при создании счёта. Попробуйте позже.</b>",
+                text="<b>❌ Ошибка при создании счёта. Попробуйте позже.</b>",
             )
             await asyncio.sleep(4)
             await bot.delete_message(chat_id=chat_id, message_id=error_message.message_id)
@@ -66,7 +66,7 @@ async def deposit_message(message: Message):
         mess = await bot.edit_message_text(
             chat_id=chat_id,
             message_id=soo.message_id,
-            caption=clean(f"""
+            text=clean(f"""
             <b>🎁 Счёт для пополнения создан!</b>
 
             <blockquote>👤 Будьте внимательны — счёт создан для <b>{user_display}</b></blockquote>
@@ -91,7 +91,7 @@ async def deposit_message(message: Message):
             await bot.edit_message_text(
                 chat_id=chat_id,
                 message_id=mess.message_id,
-                caption=f"<b>✅ Баланс @{username} пополнен на {amount}$</b>",
+                text=f"<b>✅ Баланс @{username} пополнен на {amount}$</b>",
             )
             await logs_succes_deposit(
                 username, first_name, user_id, amount, await db.users.get_balance(user_id), bot
@@ -104,7 +104,7 @@ async def deposit_message(message: Message):
         delmess = await bot.edit_message_text(
             chat_id=chat_id,
             message_id=soo.message_id,
-            caption=clean(f"""
+            text=clean(f"""
             <b><a href='https://t.me/{username_bot_casino}'>🤖 {name_casino} Bot</a> заметил ошибку!</b>
 
             <blockquote><i>✍🏻 Вы <b>ввели неправильный</b> диапазон!</i></blockquote>

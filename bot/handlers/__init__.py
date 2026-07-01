@@ -16,7 +16,7 @@ from .User_Command.Profile_Handler.Bonus_Handler.League_Bonus import league_bonu
 from .User_Command.Profile_Handler.Bonus_Handler.NickName_Bonus import nickaname_bonus
 from .User_Command.Information_Handler import info_handler
 from .User_Command.Create_Game import start_create_game
-from .User_Command.Create_Game.Channel_game import create_game
+# from .User_Command.Create_Game.Channel_game import create_game
 from .User_Command.Create_Game.Mines_Game import start_mines_game, change_count_mines, mines_game
 
 from .Admin_Handler import start_admin
@@ -34,3 +34,4 @@ from .Admin_Handler.Mailing_Admin import mailing_admin
 from .Admin_Handler.Statistick_Admin import start_statistick_admin
 
 from .Channel_Handler import main_handler
+from .User_Command import nav_handler

@@ -16,12 +16,12 @@ async def call_nickname_bonus(call: CallbackQuery):
     message_id = call.message.message_id
 
     if await db.admin.get_value('Flag_Bonus_Pripiska') == 0:
-        await call.answer(caption="⚡️ Данный бонус не активен в данный момент!", show_alert=True)
+        await call.answer(text="⚡️ Данный бонус не активен в данный момент!", show_alert=True)
         return
     
     await call.bot.edit_message_text(chat_id=user_id,
                                         message_id=message_id,
-                                        caption=clean(f"""
+                                        text=clean(f"""
                                         <b>🍀 УТКА ПРИНОСИТ УДАЧУ!</b>
                                                       
                                         <blockquote>Поставь в свой ник <b>@duckwins и получи случайный бонус от +1% до +10%</b> к сумме своей ставке!</blockquote>

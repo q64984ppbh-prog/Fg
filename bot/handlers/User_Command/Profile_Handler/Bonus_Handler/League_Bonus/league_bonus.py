@@ -18,24 +18,24 @@ async def call_league_bonus(call: CallbackQuery):
     message_id = call.message.message_id
 
     levels = await db.users.get_levels()
-    caption = "🏆 <b>Лиги и бонусы</b>\n\n"
+    text= "🏆 <b>Лиги и бонусы</b>\n\n"
     for level in levels:
 
         turnover = int(level["required_turnover"])
         reward = int(level["reward"])
 
-        caption += (
+        text += (
             f"<blockquote>{level['name']}</blockquote>\n"
             f"Оборот – <b>{turnover:,.2f}$</b>\n"
             f"Награда – <b>{reward}$</b>\n\n"
         )
 
-    caption = caption.replace(",", " ")
+    text= text.replace(",", " ")
 
     await call.answer()
-    await call.bot.edit_message_caption(
+    await call.bot.edit_message_text(
         chat_id=user_id,
         message_id=message_id,
-        caption=caption,
+        text=caption,
         reply_markup=back_in_bonus_keyboard()
     )

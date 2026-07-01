@@ -23,7 +23,7 @@ async def call_settings_bonus_pripiska_admin(call: CallbackQuery):
     
     await call.bot.edit_message_text(chat_id=user_id,
                                         message_id=message_id,
-                                        caption=clean(f"""
+                                        text=clean(f"""
                                         <b>🚀 Бонус за приписку</b>
 
                                         <blockquote>⚙️ Здесь можно настроить наш бонус за приписку в нике!</blockquote>
@@ -40,10 +40,10 @@ async def call_change_status_nickname_bonus(call: CallbackQuery):
     flag = await db.admin.get_value('Flag_Bonus_Pripiska')
     if flag == 1:
         await db.admin.update_value("Flag_Bonus_Pripiska", 0)
-        await call.answer(caption="❌ Вы выключили конкурс!", show_alert=True)
+        await call.answer(text="❌ Вы выключили конкурс!", show_alert=True)
     else:
         await db.admin.update_value("Flag_Bonus_Pripiska", 1)
-        await call.answer(caption="✅ Вы включили конкурс!", show_alert=True)
+        await call.answer(text="✅ Вы включили конкурс!", show_alert=True)
 
     await call.bot.edit_message_reply_markup(chat_id=user_id,
                                              message_id=message_id,

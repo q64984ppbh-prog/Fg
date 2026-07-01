@@ -25,12 +25,12 @@ async def call_send_ref_money(call: CallbackQuery):
         await db.referals.minus_referal_balance(user_id, balance)
         await db.users.add_balance(user_id, balance)
 
-        await call.answer(caption=f"☘️ Вы вывели на свой баланс {balance:.2f}$", show_alert=True)
+        await call.answer(text=f"☘️ Вы вывели на свой баланс {balance:.2f}$", show_alert=True)
 
         balance_our = await db.referals.get_referal_balance(user_id)
         await call.bot.edit_message_text(chat_id=user_id,
                                         message_id=message_id,
-                                        caption=clean(f"""
+                                        text=clean(f"""
                                         <b>🫂 Реферальная программа @{username}</b>
                         
                                         👤 Рефералов — <b>{await db.referals.count_referals(user_id)} чел.</b>
@@ -42,4 +42,4 @@ async def call_send_ref_money(call: CallbackQuery):
                                         reply_markup=await start_referal_keyboard(balance_our, user_id))
 
     else:
-        await call.answer(caption=f"🦋 Минимальный вывод {await db.admin.get_value('Min_Ref_Withdraw'):.2f}$", show_alert=True)
+        await call.answer(text=f"🦋 Минимальный вывод {await db.admin.get_value('Min_Ref_Withdraw'):.2f}$", show_alert=True)

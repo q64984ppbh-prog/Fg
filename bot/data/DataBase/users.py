@@ -301,3 +301,13 @@ class UsersDB:
                 "UPDATE user_throttle SET last_notify=$1 WHERE user_id=$2 AND action=$3",
                 now, user_id, action
             )
+    async def get_total_users(self):
+        async with self.db.pool.acquire() as conn:
+            return await conn.fetchval("SELECT COUNT(*) FROM public.users")
+
+    async def set_last_bet(self, user_id: int, amount: float):
+        async with self.db.pool.acquire() as con:
+            await con.execute(
+                "INSERT INTO public.users_date (user_id, last_bet) VALUES ($1, $2) ON CONFLICT (user_id) DO UPDATE SET last_bet = $2",
+                user_id, amount
+            )

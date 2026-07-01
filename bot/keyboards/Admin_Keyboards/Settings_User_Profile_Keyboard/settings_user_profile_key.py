@@ -11,7 +11,7 @@ def find_user_keyboard(user_id):
                 InlineKeyboardButton(text="👤 Убрать реферера", callback_data=f'delete_referal_user_{user_id}')
             ],
             [
-                InlineKeyboardButton(text="⬅️ Вернуться", callback_data='admin_panel')
+                InlineKeyboardButton(text="Вернуться", icon_custom_emoji_id="5258236805890710909", callback_data='admin_panel')
             ]
         ]
     )
@@ -21,7 +21,7 @@ def back_in_find_user(user_id):
     main = InlineKeyboardMarkup(
         inline_keyboard=[
             [
-                InlineKeyboardButton(text="⬅️ Вернуться", callback_data=f'back_in_find_{user_id}')
+                InlineKeyboardButton(text="Вернуться", icon_custom_emoji_id="5258236805890710909", callback_data=f'back_in_find_{user_id}')
             ]
         ]
     )

@@ -1,6 +1,6 @@
 # main
 from aiogram import F, Router
-from aiogram.types import CallbackQuery, Message, FSInputFile
+from aiogram.types import CallbackQuery, Message
 from aiogram.filters import StateFilter
 from aiogram.fsm.context import FSMContext
 from aiogram.fsm.state import State, StatesGroup
@@ -36,7 +36,7 @@ async def call_redact_admin_user_balance(call: CallbackQuery, state: FSMContext)
     await call.answer()
     await call.bot.edit_message_text(chat_id=user_id,
                                         message_id=message_id,
-                                        caption=clean(f"""
+                                        text=clean(f"""
                                         <b>🔄 Изменение баланса игрока</b>
                                                       
                                         <blockquote>ℹ️ Здесь вы можете изменить баланс игрока!</blockquote>
@@ -60,7 +60,7 @@ async def message_change_balance_admin(message: Message, state: FSMContext):
         amount = float(message.text)
     except:
         await message.bot.send_message(chat_id=user_id,
-                                    caption=clean(f"""
+                                    text=clean(f"""
                                     <b>🧐 Произошла ошибка!</b>
 
                                     <blockquote>❌ Вы ввели не верную сумму для <b>{"пополнения" if cho == 'plus' else "снижения"}</b></blockquote>
@@ -74,7 +74,7 @@ async def message_change_balance_admin(message: Message, state: FSMContext):
 
         try:
             await message.bot.send_message(chat_id=int(pool_id),
-                                           caption=clean(f"""
+                                           text=clean(f"""
                                             <b>🎁 Поздравляем! Ваш баланс был пополнен администрацией!</b>
                                                       
                                             <blockquote>🔄 Мы пополнили ваш баланс на сумму <b>{amount}$</b></blockquote>"""),
@@ -87,7 +87,7 @@ async def message_change_balance_admin(message: Message, state: FSMContext):
 
         try:
             await message.bot.send_message(chat_id=int(pool_id),
-                                           caption=clean(f"""
+                                           text=clean(f"""
                                             <b>🧐 Что то случилось! Мы сняли ваш баланс!</b>
                                                       
                                             <blockquote>🔄 Мы сняли с вашего баланс <b>{amount}$</b></blockquote>"""),
@@ -102,7 +102,7 @@ async def message_change_balance_admin(message: Message, state: FSMContext):
         level_name = level['name'] if level else '❓ Неизвестно'
 
         await message.bot.send_message(chat_id=user_id,
-                                        caption=clean(f"""
+                                        text=clean(f"""
                                         <b>👤 Найден пользователь: {inf['first_name']}</b>
 
                                         <blockquote><b>📊 Найденная информация:</b>

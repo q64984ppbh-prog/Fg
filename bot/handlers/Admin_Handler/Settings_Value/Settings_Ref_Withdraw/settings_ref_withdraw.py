@@ -1,6 +1,6 @@
 # main
 from aiogram import F, Router
-from aiogram.types import CallbackQuery, Message, FSInputFile
+from aiogram.types import CallbackQuery, Message
 from aiogram.filters import StateFilter
 from aiogram.fsm.context import FSMContext
 from aiogram.fsm.state import State, StatesGroup
@@ -29,7 +29,7 @@ async def call_settings_minimal_referal_withdraw_admin(call: CallbackQuery, stat
     await call.answer()
     await call.bot.edit_message_text(chat_id=user_id,
                                         message_id=message_id,
-                                        caption=clean(f"""
+                                        text=clean(f"""
                                         <b>🫂 Мин. реферальный вывод</b>
                                                       
                                         <blockquote>📊 Здесь вы можете настроить реферальный вывод в нашем боте!</blockquote>
@@ -48,7 +48,7 @@ async def message_settings_min_ref_withdraw(message: Message, state: FSMContext)
         amount = float(message.text)
     except:
         await message.bot.send_message(chat_id=user_id,
-                                    caption=clean(f"""
+                                    text=clean(f"""
                                     <b>🧐 Произошла ошибка!</b>
 
                                     <blockquote>❌ Вы ввели не верное число для <b>минимального реф. вывода</b></blockquote>
@@ -59,7 +59,7 @@ async def message_settings_min_ref_withdraw(message: Message, state: FSMContext)
     
     await db.admin.update_value('Min_Ref_Withdraw', amount)
     await message.bot.send_message(chat_id=user_id,
-                                 caption=clean(f"""
+                                 text=clean(f"""
                                 <b>✅ Значение изменено!</b>
                                 
                                 <blockquote>📊 Вы успешно изменили <b>минимальный реферальный вывод</b></blockquote>

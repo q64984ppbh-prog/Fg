@@ -1,42 +1,39 @@
 from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup
-from data.config import username_bot_casino, db
-
-async def forrmated_privatnost(user_id):
-    if await db.users.get_anonimnost(user_id):
-        return "🥷🏻 Приватность"
-    else:
-        return "👤 Приватность"
-
 
 async def start_profile_keyboard(user_id):
-    main = InlineKeyboardMarkup(
-        inline_keyboard=[
-            [
-                InlineKeyboardButton(text='📥 Пополнить', callback_data='add_balance'),
-                InlineKeyboardButton(text='📤 Вывести', callback_data='withdraw_balance')
-            ],
-            [
-                InlineKeyboardButton(text=f'{await forrmated_privatnost(user_id)}', callback_data='private_user'),
-                InlineKeyboardButton(text='👥 Партнерка', callback_data='referal_program')
-            ],
-            [
-                InlineKeyboardButton(text="📊 Статистика", callback_data='statistic_user'),
-                InlineKeyboardButton(text='🍭 Бонусы', callback_data='bonus_start')
-            ],
-            [
-                InlineKeyboardButton(text='🔙 Вернуться', callback_data='back_start')
-            ]
+    return InlineKeyboardMarkup(inline_keyboard=[
+        [
+            InlineKeyboardButton(text="Пополнить", callback_data='add_balance', icon_custom_emoji_id="5443127283898405358"),
+            InlineKeyboardButton(text="Вывести", callback_data='withdraw_balance', icon_custom_emoji_id="5445355530111437729")
+        ],
+        [
+            InlineKeyboardButton(text="Приватность", callback_data='anonimnost', icon_custom_emoji_id="5258011929993026890"),
+            InlineKeyboardButton(text="Партнерка", callback_data='start_referal', icon_custom_emoji_id="5445221832074483553")
+        ],
+        [
+            InlineKeyboardButton(text="Статистика", callback_data='statistic_user', icon_custom_emoji_id="5231200819986047254"),
+            InlineKeyboardButton(text="Бонусы", callback_data='bonus_start', icon_custom_emoji_id="5193085063998224234")
+        ],
+        [
+            InlineKeyboardButton(text="Назад", icon_custom_emoji_id="5258236805890710909", callback_data='back_start')
         ]
-    )
-    return main
+    ])
 
 def start_profile_message_keyboard():
-    main = InlineKeyboardMarkup(
-        inline_keyboard=[
-            [
-                InlineKeyboardButton(text='📥 Пополнить', url=f"http://t.me/{username_bot_casino}?start=dep"),
-                InlineKeyboardButton(text='📤 Вывести', url=f"http://t.me/{username_bot_casino}?start=withdraw")
-            ]
+    return InlineKeyboardMarkup(inline_keyboard=[
+        [
+            InlineKeyboardButton(text="Пополнить", callback_data='add_balance', icon_custom_emoji_id="5443127283898405358"),
+            InlineKeyboardButton(text="Вывести", callback_data='withdraw_balance', icon_custom_emoji_id="5445355530111437729")
+        ],
+        [
+            InlineKeyboardButton(text="Приватность", callback_data='anonimnost', icon_custom_emoji_id="5258011929993026890"),
+            InlineKeyboardButton(text="Партнерка", callback_data='start_referal', icon_custom_emoji_id="5445221832074483553")
+        ],
+        [
+            InlineKeyboardButton(text="Статистика", callback_data='statistic_user', icon_custom_emoji_id="5231200819986047254"),
+            InlineKeyboardButton(text="Бонусы", callback_data='bonus_start', icon_custom_emoji_id="5193085063998224234")
+        ],
+        [
+            InlineKeyboardButton(text="Транзакции", callback_data='tranzaction_profile', icon_custom_emoji_id="5332455502917949981")
         ]
-    )
-    return main
+    ])

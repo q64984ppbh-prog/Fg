@@ -31,7 +31,7 @@ async def get_user_id_entata(bot: Bot, entata):
             await cfg.pyro_client.send_message(
                 chat_id=channel_game_id,
                 disable_web_page_preview=True,
-                caption=text_prem
+                text=text_prem
             )
         except:
             text = clean(f"""
@@ -43,7 +43,7 @@ async def get_user_id_entata(bot: Bot, entata):
 
             await bot.send_message(
                 chat_id=channel_game_id,
-                caption=text,
+                text=text,
                 disable_web_page_preview=True,
                 reply_markup=keyboard_error_user_id()
             )
@@ -61,7 +61,7 @@ async def check_abuz_name(name, message):
 
                 await cfg.pyro_client.send_message(
                     chat_id=channel_game_id,
-                    caption=text,
+                    text=text,
                     reply_markup=keyboard_error_user_id()
                 )
                 return False
@@ -217,7 +217,7 @@ async def check_reklama_user(name, stavka, value, user_id, bot: Bot, stavka_bot 
         try:
             soo = await cfg.pyro_client.send_message(
                 chat_id=channel_game_id,
-                caption=text_prem_emoji_error,
+                text=text_prem_emoji_error,
                 disable_web_page_preview=True
             )
             try:
@@ -233,7 +233,7 @@ async def check_reklama_user(name, stavka, value, user_id, bot: Bot, stavka_bot 
         except Exception as outer_e:
             soo = await bot.send_message(
                 chat_id=channel_game_id,
-                caption=text_error,
+                text=text_error,
                 disable_web_page_preview=True,
                 reply_markup=keyboard_error_user_id()
             )
@@ -244,7 +244,7 @@ async def check_reklama_user(name, stavka, value, user_id, bot: Bot, stavka_bot 
     try:
         soo = await cfg.pyro_client.send_message(
             chat_id=channel_game_id,
-            caption=text_prem_emoji,
+            text=text_prem_emoji,
             disable_web_page_preview=True
         )
         try:
@@ -260,7 +260,7 @@ async def check_reklama_user(name, stavka, value, user_id, bot: Bot, stavka_bot 
     except Exception as outer_e:
         soo = await bot.send_message(
             chat_id=channel_game_id,
-            caption=text,
+            text=text,
             disable_web_page_preview=True,
             reply_markup=keyboard_error_user_id()
         )
@@ -286,13 +286,13 @@ async def handle_invalid_bet(stavka, value, soo, user_id, name, bot: Bot):
         try:
             await asyncio.sleep(0.8)
             await cfg.pyro_client.send_message(chat_id=channel_game_id,
-                                    caption=clean(f"""
+                                    text=clean(f"""
                                     <b><emoji id='4927486932113425461'>❗</emoji> Бот заметил ошибку!</b>
                                                
                                     <blockquote><b><emoji id='5017088445353296841'>🔎</emoji> Вы забыли указать комментарий или указали его не верно! <emoji id='5445221832074483553'>💼</emoji> Бот вернет вам {koma} <emoji id='5409048419211682843'>💵</emoji> на ваш баланс</b></blockquote>"""))
         except Exception as e:
             await bot.send_message(chat_id=channel_game_id,
-                                    caption=clean(f"""
+                                    text=clean(f"""
                                     <b>❗ Бот заметил ошибку!</b>
                                                
                                     <blockquote><b>🔎 Вы забыли указать комментарий или указали его не верно! 💼Бот вернет вам {koma}$ на ваш баланс</b></blockquote>"""),
@@ -384,7 +384,7 @@ async def check_user_level_up(user_id: int, bot: Bot):
     try:
         await bot.send_message(
             chat_id=user_id,
-            caption=message_text,
+            text=message_text,
             parse_mode="HTML"
         )
     except Exception as e:

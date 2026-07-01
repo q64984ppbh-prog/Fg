@@ -1,6 +1,6 @@
 # main
 from aiogram import F, Router
-from aiogram.types import CallbackQuery, Message, FSInputFile
+from aiogram.types import CallbackQuery, Message
 from aiogram.filters import StateFilter
 from aiogram.fsm.context import FSMContext
 from aiogram.fsm.state import State, StatesGroup
@@ -29,7 +29,7 @@ async def call_settings_referal_precent(call: CallbackQuery, state: FSMContext):
     await call.answer()
     await call.bot.edit_message_text(chat_id=user_id,
                                         message_id=message_id,
-                                        caption=clean(f"""
+                                        text=clean(f"""
                                         <b>🔗 Реферальный процент</b>
                                                       
                                         <blockquote>📊 Здесь вы можете настроить реферальный процент в нашем боте!</blockquote>
@@ -48,7 +48,7 @@ async def message_settings_ref_precent(message: Message, state: FSMContext):
         amount = float(message.text)
     except:
         await message.bot.send_message(chat_id=user_id,
-                                    caption=clean(f"""
+                                    text=clean(f"""
                                     <b>🧐 Произошла ошибка!</b>
 
                                     <blockquote>❌ Вы ввели не верное число для <b>реферального  процент</b></blockquote>
@@ -59,7 +59,7 @@ async def message_settings_ref_precent(message: Message, state: FSMContext):
     
     await db.admin.update_value('Referal_Precent', amount)
     await message.bot.send_message(chat_id=user_id,
-                                 caption=clean(f"""
+                                 text=clean(f"""
                                 <b>✅ Значение изменено!</b>
                                 
                                 <blockquote>📊 Вы успешно изменили <b>реферальный процент</b></blockquote>

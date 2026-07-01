@@ -109,7 +109,7 @@ async def process_out_bet(out_bet, bot):
             await db.users.add_balance(user_id, amount)
             await bot.send_message(
                 chat_id=user_id,
-                caption=clean(f"""
+                text=clean(f"""
                             <i>❌ Произошла ошибка.</i>
                               
                             • <code>USDT зачислены обратно</code>
@@ -124,7 +124,7 @@ async def process_out_bet(out_bet, bot):
                 link = link_match.group(0)
                 await bot.send_message(
                     chat_id=user_id,
-                    caption=(
+                    text=(
                         f"<b>💸 Ваш чек на сумму <code>{amount}$</code></b>"
                     ),
                     reply_markup=activated_check_user_keyboard(link, amount)
@@ -134,7 +134,7 @@ async def process_out_bet(out_bet, bot):
                 await db.plus_balance(amount, user_id)
                 await bot.send_message(
                     chat_id=user_id,
-                    caption=clean(f"""
+                    text=clean(f"""
                             <i>❌ Произошла ошибка.</i>
                               
                             • <code>USDT зачислены обратно</code>

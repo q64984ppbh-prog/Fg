@@ -16,10 +16,10 @@ async def call_private_user(call: CallbackQuery):
 
     if await db.users.get_anonimnost(user_id):
         await db.users.update_anonimnost(user_id, False)
-        await call.answer(caption="👤 Вы выключили анонимность! Теперь ваш ник виден!", show_alert=True)
+        await call.answer(text="👤 Вы выключили анонимность! Теперь ваш ник виден!", show_alert=True)
     else:
         await db.users.update_anonimnost(user_id, True)
-        await call.answer(caption="🥷🏻 Вы включили анонимность! Теперь ваш ник спрятан!", show_alert=True)
+        await call.answer(text="🥷🏻 Вы включили анонимность! Теперь ваш ник спрятан!", show_alert=True)
 
     await call.bot.edit_message_reply_markup(chat_id=user_id,
                                              message_id=message_id,

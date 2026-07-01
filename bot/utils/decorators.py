@@ -57,10 +57,10 @@ def require_subscription():
                 photo = FSInputFile('photo/start.jpg')
 
                 if isinstance(event, Message):
-                    await bot.send_photo(chat_id=user_id, photo=photo, caption="<b>🚫 Чтобы продолжить, подпишитесь на каналы ниже:</b>", reply_markup=keyboard)
+                    await bot.send_photo(chat_id=user_id, photo=photo, text="<b>🚫 Чтобы продолжить, подпишитесь на каналы ниже:</b>", reply_markup=keyboard)
 
                 elif isinstance(event, CallbackQuery):
-                    await bot.edit_message_caption(chat_id=user_id, message_id=event.message.message_id, caption="<b>🚫 Чтобы продолжить, подпишитесь на каналы ниже:</b>", reply_markup=keyboard)
+                    await bot.edit_message_caption(chat_id=user_id, message_id=event.message.message_id, text="<b>🚫 Чтобы продолжить, подпишитесь на каналы ниже:</b>", reply_markup=keyboard)
 
                 return
 

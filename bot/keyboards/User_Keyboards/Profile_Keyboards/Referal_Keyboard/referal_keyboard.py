@@ -20,7 +20,7 @@ async def start_referal_keyboard(balance, user_id):
                 InlineKeyboardButton(text=await forrmated_notification_referal(user_id), callback_data='change_notification_referal')
             ],
             [
-                InlineKeyboardButton(text="⬅️ Вернуться", callback_data='start_profile')
+                InlineKeyboardButton(text="Вернуться", icon_custom_emoji_id="5258236805890710909", callback_data='start_profile')
             ]
         ]
     )
@@ -33,7 +33,7 @@ def start_bonus_referal_keyboard(balance):
                 InlineKeyboardButton(text=f"✅ Вывести {balance}$", callback_data='send_ref_bonus_in_money')
             ],
             [
-                InlineKeyboardButton(text="⬅️ Вернуться", callback_data='referal_program')
+                InlineKeyboardButton(text="Вернуться", icon_custom_emoji_id="5258236805890710909", callback_data='referal_program')
             ]
         ]
     )

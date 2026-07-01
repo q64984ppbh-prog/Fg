@@ -8,7 +8,7 @@ def start_tranzaction_keyboard():
                 InlineKeyboardButton(text="🧾 Выводов", callback_data='tranzaction_withdraw')
             ],
             [
-                InlineKeyboardButton(text="⬅️ Вернуться", callback_data='statistic_user')
+                InlineKeyboardButton(text="Вернуться", icon_custom_emoji_id="5258236805890710909", callback_data='statistic_user')
             ]
         ]
     )

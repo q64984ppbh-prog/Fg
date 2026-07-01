@@ -1,138 +1,60 @@
-# main
 from aiogram import F, Router
-from aiogram.types import CallbackQuery, Message, FSInputFile
+from aiogram.types import CallbackQuery, Message
 from aiogram.fsm.context import FSMContext
 from aiogram.fsm.state import State, StatesGroup
-from aiogram.filters import StateFilter
-
-# other
-import asyncio
-from data.config import db
-from datetime import datetime
+from data.config import db, client
 from utils.help_function import clean
-from utils.logs_message import logs_succes_deposit
+from utils.decorators import require_subscription
+from keyboards.User_Keyboards.Profile_Keyboards.Deposit_Keyboards.deposit_key import back_in_deposit_keyboard
 import handlers.User_Command.Profile_Handler.Deposit_Handler.function as functions
-from keyboards.User_Keyboards.Profile_Keyboards.Deposit_Keyboards.deposit_key import (
-    back_in_deposit_keyboard,
-    deposit_message_keyboard
-)
 
 router = Router()
-class DepositCryptoBotState(StatesGroup):
 
-    amount = State()
+class DepositState(StatesGroup):
+    waiting_amount = State()
 
-@router.callback_query(F.data == 'start_dep_cryptobot')
+@router.callback_query(F.data == 'start_deposit_cryptobot')
+@require_subscription()
 async def call_dep_cryptobot(call: CallbackQuery, state: FSMContext):
-
-    bot = call.bot
-    user_id = call.from_user.id 
-    message_id = call.message.message_id 
-
+    user_id = call.from_user.id
+    balance = await db.users.get_balance(user_id)
+    await state.clear()
+    await state.set_state(DepositState.waiting_amount)
     await call.answer()
-    await bot.edit_message_text(chat_id=user_id,
-                                   message_id=message_id,
-                                   caption=clean(f"""
-                                    💡 Выбрана система: <b>🌏 Crypto Bot</b>
+    await call.message.delete()
+    await call.bot.send_message(
+        chat_id=user_id,
+        text=clean(f"💡 Выбрана система: <b>🌏 Crypto Bot</b>\n\n💰 Ваш баланс: <b>{balance:.2f}$</b>\n\nℹ️ Введите сумму для пополнения:"),
+        reply_markup=back_in_deposit_keyboard()
+    )
 
-                                    <blockquote><b>🌏 Crypto Bot</b> — предназначен для хранения, отправки и покупки криптовалют прямо внутри Telegram.</blockquote>
-                                                 
-                                    🦋 Введите <b>сумму ($)</b> для оплаты:"""),
-                                    reply_markup=back_in_deposit_keyboard())
-    await state.set_state(DepositCryptoBotState.amount)
-
-@router.message(StateFilter(DepositCryptoBotState.amount))
-async def message_deposit_cryptobot(message: Message, state: FSMContext):
-
-    bot = message.bot
-    user_id = message.from_user.id 
-    username = message.from_user.username
-    first_name = message.from_user.first_name
-    message_id = message.message_id
-
+@router.message(DepositState.waiting_amount)
+async def deposit_amount_input(message: Message, state: FSMContext):
+    user_id = message.from_user.id
+    raw = message.text.strip().replace('$', '').replace(',', '.').replace(' ', '')
     try:
-        amount = float(message.text)
-    except:
-        photo = FSInputFile('photo/profile.jpg')
-        await bot.send_message(chat_id=user_id,
-                             caption=clean(f"""
-                            <code>[ERR]</code> <b>❌ Бот заметил ошибку!</b>
-                                           
-                            💸 Отправьте <b>верную сумму</b> для пополнения:"""),
-                            reply_markup=back_in_deposit_keyboard())
+        amount = float(raw)
+    except ValueError:
+        await message.answer("<b>❌ ОШИБКА!</b>\n<blockquote>Введите корректную сумму</blockquote>")
         return
-    
-    min_dep = await db.admin.get_value('Min_Dep')
-    max_dep = await db.admin.get_value('Max_Dep')
-
-    if amount >= min_dep and amount <= max_dep:
-        
-        amount_invoice = amount  - (amount * 0.03)
-        #amount_invoice = amount
-        invoice = await functions.create_invoice(amount, 'USDT')
-        if invoice:
-            url = invoice.bot_invoice_url
-            invoice_id = invoice.invoice_id
-
-            await state.clear()
-            photo = FSInputFile('photo/profile.jpg')
-            soo = await bot.send_message(chat_id=user_id,
-                                 caption=clean(f"""
-                                ✅ Счет на оплату <b>создан</b>
-                                
-                                <blockquote>📖 <b>Информация</b> счета
-                                ├ <code>🔄 Проверка оплаты автомат.</code>
-                                ├ Сумма: <b>{amount:.2f}$</b>
-                                ├ Система: <a href='https://t.me/send'><b>🌏 Crypto Bot</b></a>
-                                └ Время оплаты: <b>5 мин.</b></blockquote>
-                                
-                                <b>👤 Оплатите счет для пополнения баланса!</b>"""),
-                                reply_markup=deposit_message_keyboard(url))
-            
-            if await asyncio.create_task(functions.check_date_proverka(invoice_id)):
-
-                now = datetime.now()
-                formatted_time = now.strftime("%H:%M - %d.%m.%Y")
-
-                await db.users.add_balance(user_id=user_id, amount=float(amount_invoice))
-                await db.users.add_history_replenishment(user_id=user_id, amount=float(amount), system="🌏 Crypto Bot", date=formatted_time)
-                await db.users.add_replenishment(user_id=user_id, amount=amount)
-
-                # <!-- АДМИН СТАТИСТИКА --!>
-                await db.admin.plus_admin_statistick('Amount_Deposit', amount)
-
-                await bot.delete_message(chat_id=user_id, message_id=soo.message_id)
-                await bot.send_message(chat_id=user_id,
-                                     caption=clean(f"""
-                                    ✅ Счет <b>оплачен</b>!
-                                    
-                                    <blockquote>📖 <b>Информация</b> счета
-                                    ├ <code>🔄 Проверка оплаты автомат.</code>
-                                    ├ Сумма: <b>{amount:.2f}$</b>
-                                    ├ Система: <a href='https://t.me/send'><b>🌏 Crypto Bot</b></a>
-                                    └ Время оплаты: <b>5 мин.</b></blockquote>
-                                    
-                                    💰 На ваш <b>баланс</b> зачислено <b>{amount_invoice}$</b>"""),
-                                    message_effect_id="5104841245755180586",
-                                    reply_markup=back_in_deposit_keyboard())
-                await logs_succes_deposit(username, first_name, user_id, amount, await db.users.get_balance(user_id), bot)
-
-            else:
-                await bot.delete_message(chat_id=user_id, message_id=soo.message_id)
-
-        else:
-            photo = FSInputFile('photo/profile.jpg')
-            await bot.send_message(chat_id=user_id,
-                             caption=clean(f"""
-                            <code>[ERR]</code> <b>❌ Бот заметил ошибку!</b>
-                                           
-                            👨🏻‍💻 Произошла <b>Тех.Ошибка</b>, обратитесь в поддержку"""),
-                            reply_markup=back_in_deposit_keyboard())
+    if amount <= 0:
+        await message.answer("<b>❌ ОШИБКА!</b>\n<blockquote>Сумма должна быть больше 0</blockquote>")
+        return
+    min_dep = float(await db.admin.get_value("Min_Dep") or 0.2)
+    max_dep = float(await db.admin.get_value("Max_Dep") or 10000)
+    if amount < min_dep:
+        await message.answer(f"<b>❌ ОШИБКА!</b>\n<blockquote>Минимальный депозит: {min_dep:.2f}$</blockquote>")
+        return
+    if amount > max_dep:
+        await message.answer(f"<b>❌ ОШИБКА!</b>\n<blockquote>Максимальный депозит: {max_dep:.2f}$</blockquote>")
+        return
+    await state.clear()
+    invoice = await functions.create_invoice(amount, 'USDT')
+    if invoice:
+        await message.answer(
+            f"<b>🧾 Счёт на {amount}$ создан!</b>\n\n"
+            f"<a href='{invoice.bot_invoice_url}'>Оплатить через CryptoBot</a>",
+            disable_web_page_preview=True
+        )
     else:
-        photo = FSInputFile('photo/profile.jpg')
-        await bot.send_message(chat_id=user_id,
-                             caption=clean(f"""
-                            <code>[ERR]</code> <b>❌ Бот заметил ошибку!</b>
-                                           
-                            💸 Диапозон от <b>{min_dep:.2f}$</b> до <b>{max_dep:.0f}$</b>"""),
-                            reply_markup=back_in_deposit_keyboard())
+        await message.answer("<b>❌ Ошибка при создании счёта. Попробуйте позже.</b>")

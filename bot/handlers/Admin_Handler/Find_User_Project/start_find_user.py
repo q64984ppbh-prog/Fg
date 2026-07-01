@@ -1,6 +1,6 @@
 # main
 from aiogram import F, Router
-from aiogram.types import CallbackQuery, Message, FSInputFile
+from aiogram.types import CallbackQuery, Message
 from aiogram.filters import StateFilter
 from aiogram.fsm.context import FSMContext
 from aiogram.fsm.state import State, StatesGroup
@@ -29,9 +29,9 @@ async def call_redact_user_statistics(call: CallbackQuery, state: FSMContext):
         return
     
     await call.answer()
-    await call.bot.edit_message_text(chat_id=user_id,
-                                        message_id=message_id,
-                                        caption=clean(f"""
+    await call.message.delete(); await call.bot.send_message(chat_id=user_id,
+                                        
+                                        text=clean(f"""
                                         <b>👤 Поиск пользователя</b>
 
                                         <blockquote>🔄 Вы сможете редактировать профиль пользователя и смотреть его!</blockquote>
@@ -49,7 +49,7 @@ async def message_find_user_admin(message: Message, state: FSMContext):
         pool_id = int(message.text)
     except:
         await message.bot.send_message(chat_id=user_id,
-                                     caption=clean(f"""
+                                     text=clean(f"""
                                     <b>🧐 Произошла ошибка!</b>
 
                                     <blockquote>❌ Вы ввели не верное число для <b>редактирования пользователя</b></blockquote>
@@ -60,7 +60,7 @@ async def message_find_user_admin(message: Message, state: FSMContext):
     
     if not await db.users.user_exists(pool_id):
         await message.bot.send_message(chat_id=user_id,
-                                     caption=clean(f"""
+                                     text=clean(f"""
                                     <b>🧐 Произошла ошибка!</b>
 
                                     <blockquote>❌ Данный пользователь не найден в базе данных</blockquote>
@@ -77,7 +77,7 @@ async def message_find_user_admin(message: Message, state: FSMContext):
             level_name = level['name'] if level else '❓ Неизвестно'
 
             await message.bot.send_message(chat_id=user_id,
-                                        caption=clean(f"""
+                                        text=clean(f"""
                                         <b>👤 Найден пользователь: {inf['first_name']}</b>
 
                                         <blockquote><b>📊 Найденная информация:</b>
@@ -110,9 +110,9 @@ async def call_back_in_find(call: CallbackQuery, state: FSMContext):
         level = await db.users.get_level_by_id(inf['level_id'])
         level_name = level['name'] if level else '❓ Неизвестно'
 
-        await call.bot.edit_message_text(chat_id=user_id,
-                                            message_id=message_id,
-                                            caption=clean(f"""
+        await call.message.delete(); await call.bot.send_message(chat_id=user_id,
+                                            
+                                            text=clean(f"""
                                         <b>👤 Найден пользователь: {inf['first_name']}</b>
 
                                         <blockquote><b>📊 Найденная информация:</b>

@@ -22,10 +22,10 @@ async def call_change_notification_referal(call: CallbackQuery):
     notification = await db.referals.get_referal_notification(user_id)
     if notification:
         await db.referals.change_referal_notification(user_id, False)
-        await call.answer(caption="🔕 Вы выключили реферальные уведомления", show_alert=True)
+        await call.answer(text="🔕 Вы выключили реферальные уведомления", show_alert=True)
     else:
         await db.referals.change_referal_notification(user_id, True)
-        await call.answer(caption="🔔 Вы включили реферальные уведомления", show_alert=True)
+        await call.answer(text="🔔 Вы включили реферальные уведомления", show_alert=True)
 
     await call.bot.edit_message_reply_markup(chat_id=user_id,
                                              message_id=message_id,
